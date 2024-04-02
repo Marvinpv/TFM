@@ -6,7 +6,7 @@ def descargar_audio(youtube_id, solo_start_sec, solo_end_sec):
     # Configuración de youtube-dl
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': 'audios/%(title)s.%(ext)s',
+        'outtmpl': f'audios/{youtube_id}-%(title)s.%(ext)s',
     }
 
     # URL del video de YouTube
