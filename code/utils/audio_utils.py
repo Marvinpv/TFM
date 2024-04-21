@@ -39,6 +39,7 @@ def return_in_memory_wav_audio(url,start_time,end_time, dir_path=TMP_DIR_PATH):
             info = ydl.extract_info(url)
         except Exception as e:
             print('Error:',e)
+            return None
 
     return info['requested_downloads'][0]['filepath']
 
@@ -48,10 +49,18 @@ def save_to_TFRecord(spec, tfrec_filepath):
 
 
 def convert_audio_to_samples(filepath,sr=SAMPLING_RATE):
-    bin_audio = tf.io.read_file(filepath)
-    audio_samples,sampling_rate = tf.audio.decode_wav(contents=bin_audio,desired_channels=1)
-    #print(audio_samples.shape)
-    return tf.squeeze(audio_samples,axis=-1),int(sampling_rate)
+    audio_samples = []
+    sampling_rate = sr
+    try:
+        bin_audio = tf.io.read_file(filepath)
+        audio_samples,sampling_rate = tf.audio.decode_wav(contents=bin_audio,desired_channels=1)
+        #print(audio_samples.shape)
+    except Exception as e:
+        logger.error(e)
+    if len(audio_samples):
+        return tf.squeeze(audio_samples,axis=-1),int(sampling_rate)
+    else:
+        return audio_samples,sr
 
 def create_spectogram_from_tf_samples(samples, sampling_rate = SAMPLING_RATE):
 

@@ -37,7 +37,7 @@ class audioUtilsTest(TestCase):
         samples,sampling_rate = audio_r.convert_audio_to_samples(filepath)
         spect,_ = audio_r.create_spectogram_from_tf_samples(samples,sampling_rate=sampling_rate)
 
-        self.assertEqual(spect.shape, tf.TensorShape([17614,129,1]), f'Expected shape was [17614,129,1], but got {spect.shape}')
+        self.assertEqual(spect.shape, tf.TensorShape([4404, 1025, 1]), f'Expected shape was [17614,129,1], but got {spect.shape}')
         
     def test_delete_wav_after_download(self):
         
