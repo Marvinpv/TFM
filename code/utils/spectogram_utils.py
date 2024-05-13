@@ -1,8 +1,12 @@
 import tensorflow as tf
 import numpy as np
 import logging
-
-
+from settings import extraction_path
+from utils.extraction_utils import create_db_cursor
+from librosa.display import specshow
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 import IPython.display as display
 
@@ -82,11 +86,10 @@ def save_spectogram_list_to_tf_record(filepath, spect_list,melids,shapes = None)
 
 def get_features_from_tfrecord(filepath):
     raw_spectogram_dataset = tf.data.TFRecordDataset(filepath)
-
     spectogram_feature_description = {
         'melid': tf.io.FixedLenFeature([], tf.int64),
-        'spectogram': tf.io.FixedLenFeature([], tf.float32),
-        'shape': tf.io.FixedLenFeature([], tf.int64),
+        'spectogram': tf.io.VarLenFeature(tf.float32),
+        'shape': tf.io.FixedLenFeature([2,], tf.int64),
     }
 
     def _parse_spectogram_function(example_proto):
@@ -96,6 +99,17 @@ def get_features_from_tfrecord(filepath):
 
     return parsed_spectogram_dataset
 
-
+def create_spectogram_for_melid(melid,para_options):
+        tfrecord_filename = extraction_path + para_options + ".tfrecord"
+        display_list = []
+        features = get_features_from_tfrecord(tfrecord_filename)
+        db_cursor = create_db_cursor()
+        for feature in features:
+            current_melid = feature['melid'].numpy()
+            if current_melid == melid:
+                mel_spect = tf.sparse.to_dense(feature['spectogram']).numpy().reshape(feature['shape'].numpy())
+                specshow(np.squeeze(mel_spect).T)#,y_axis='log')
+                plt.savefig('static/images/spect_tmp.png')
+                plt.close()
 
 

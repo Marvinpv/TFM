@@ -35,3 +35,58 @@ details{
 .content {
     padding: 10px 10px;
 }
+
+ul {
+  list-style-type: none;
+  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+/* Estilos para los elementos <li> dentro de todas las listas <ul> */
+ul li {
+  margin-bottom: 16px; /* Añadimos más espacio entre elementos */
+  padding: 16px; /* Añadimos padding para el recuadro */
+  border: 2px solid #ccc; /* Añadimos un recuadro alrededor de cada elemento */
+  border-radius: 8px; /* Añadimos esquinas redondeadas al recuadro */
+  text-align: left;
+  position: relative;
+}
+
+/* Estilos para los botones dentro de todas las listas <ul> */
+li button {
+  font-size: 16px;
+  padding: 10px 16px;
+  border: 2px #000000;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  margin-left: auto;
+  margin-right: 0px;
+  position: relative;
+  justify-content: center;
+}
+
+/* Estilos para los botones dentro de todas las listas <ul> */
+li button.btn-right {
+  font-size: 16px;
+  padding: 10px 16px;
+  border: 2px #000000;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  position:absolute;
+  right: 16px; /* Posiciona el botón a la derecha */
+  top: 50%; /* Alinea el botón verticalmente */
+  transform: translateY(-50%); /* Alinea el botón verticalmente */
+}
+/* Cambio de estilo del botón al pasar el ratón */
+ul button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+li button.btn-right i {
+  margin-right: 5px; /* Espacio entre el icono y el borde del botón */
+}

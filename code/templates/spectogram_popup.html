@@ -1,0 +1,25 @@
+<!-- mostrar_info.html -->
+{% extends "dataset_view.html" %}
+{% block content %}
+<html lang="es">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <title>TFM</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/spectogram_popup.css') }}">
+    </head>
+    <body>
+
+        <div id="popup" class="popup-container">
+            <div class="popup-content">
+              <h2>{{performer}}</h2>
+              <h3>{{song_name}}</h3>
+              <img class="popup-img" src="/static/images/spect_tmp.png" alt="Imagen">
+              <button onclick="history.go(-1)">Cerrar</button>
+            </div>
+          </div>
+        
+    </body>
+</html>
+
+{% endblock %}

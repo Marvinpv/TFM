@@ -1,108 +1,263 @@
+<!-- dataset.html -->
+
 <html lang="es">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <head>
         <meta charset="UTF-8">
         <title>TFM</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dataset_view.css') }}">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-                $(document).ready(function(){
-                    $('details').on('click', function(){
-                        var detalles = $(this);
-                        if (detalles.attr('open')) {
-                            // El detalle se ha abierto, entonces cargar las opciones
-                            $.getJSON('/opciones', {para: para},function(data){
-                                var lista = '<ul>';
-                                data.forEach(function(opcion){
-                                    lista += '<li>' + opcion + '</li>';
-                                });
-                                lista += '</ul>';
-                                detalles.find('ul').remove(); // Limpiar la lista anterior
-                                detalles.append(lista); // Agregar la nueva lista
-                            });
-                        }
-                    });
-                });
-            </script>
     </head>
     <body>
+      
         <div class="header">
             <h1>Dataset</h1>
         </div>
-
         <div class="content">
             <details id="as">
                 <summary>Alto Saxophone</summary>
-                  <div>
-                    <p>Información del contenido del acordeón.</p>
+                <div>
+                    <ul>
+                        {% for item in get_instrument_solo_list('as') %}
+                          <li>
+                              {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="as">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                                            
+                                          
+                          </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </details>
             <details id="bcl">
                 <summary>Bass Clarinet</summary>
                   <div>
-                    <p>Información del contenido del acordeón.</p>
+                    <ul>
+                        {% for item in get_instrument_solo_list('bcl') %}
+                          <li>
+                            {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="bcl">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                          </li>
+                        {% endfor %}
+                    </ul>
                   </div>
             </details>
             <details id="cl">
                 <summary>Clarinet</summary>
                   <div>
-                    <p>Información del contenido del acordeón.</p>
+                    <ul>
+                        {% for item in get_instrument_solo_list('cl') %} 
+                          <li>
+                            {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="cl">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                          </li>
+                        {% endfor %}
+                    </ul>
                   </div>
             </details>
             <details id="bs">
               <summary>Baritone Saxophone</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('bs') %}
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="bs">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
             <details id="cor">
               <summary>Cornet</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('cor') %}
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="cor">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>                
                 </div>
             </details>
             <details id="g">
               <summary>Guitar</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('g') %} 
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="g">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
             <details id="p">
               <summary>Piano</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('p') %} 
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="p">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
             <details id="ss">
               <summary>Soprano Saxophone</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('ss') %} 
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="ss">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
             <details id="tb">
               <summary>Trombone</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('tb') %}
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                            <input type="hidden" name="ins" value="tb">
+                            <input type="hidden" name="melid" value="{{item[1]}}">
+                            <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                            <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                              <button class="btn-right" id="retrieve">
+                                <i class="fa-solid fa-chart-column"></i>
+                              </button>
+                            </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
             <details id="tp">
               <summary>Trumpet</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('tp') %} 
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="tp">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details id="ts">
             <details>
               <summary>Tenor Saxophone</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('ts') %}
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="ts">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
             <details id="vib">
               <summary>Vibraphone</summary>
                 <div>
-                  <p>Información del contenido del acordeón.</p>
+                  <ul>
+                      {% for item in get_instrument_solo_list('vib') %}
+                        <li>
+                          {{item[0]}} <form action="/mostrar_info" method="post">
+                                          <input type="hidden" name="ins" value="vib">
+                                          <input type="hidden" name="melid" value="{{item[1]}}">
+                                          <input type="hidden" name="performer" value="{{item[0].split('-')[1]}}">
+                                          <input type="hidden" name="song_name" value="{{item[0].split('-')[2]}}">
+                                            <button class="btn-right" id="retrieve">
+                                              <i class="fa-solid fa-chart-column"></i>
+                                            </button>
+                                          </form>  
+                        </li>
+                      {% endfor %}
+                  </ul>
                 </div>
             </details>
         </div>
-        
+        {% block content %}
+        {% endblock %}
+
     </body>
 </html>
