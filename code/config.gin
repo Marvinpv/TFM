@@ -3,9 +3,9 @@ import __main__ as train_script
 from mt3 import mixing
 from mt3 import models
 from mt3 import network
-from mt3 import preprocessors
 from mt3 import spectrograms
 from mt3 import vocabularies
+import preprocessors
 import seqio
 from t5x import adafactor
 from t5x import gin_utils

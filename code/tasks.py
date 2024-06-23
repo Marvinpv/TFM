@@ -5,7 +5,7 @@ from mt3 import datasets
 from mt3 import event_codec
 from mt3 import metrics
 from mt3 import mixing
-from mt3 import preprocessors
+import preprocessors
 from mt3 import run_length_encoding
 from mt3 import spectrograms
 from mt3 import vocabularies
