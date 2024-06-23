@@ -1,7 +1,7 @@
 
-git clone -b feature/google-cloud-execution --single-branch git@github.com:Marvinpv/TFM.git
+git clone -b feature/google-cloud-execution --single-branch https://github.com/Marvinpv/TFM.git
 
-gsutil cp -r gs://tfm-jazz-transcription-marvin/pip_lib/ /code/pip_lib/
+gsutil cp -r gs://tfm-jazz-transcription-marvin/pip_lib /home/marvin/TFM/code/pip_lib/
 pip install pip_lib/mt3-0.0.1-py3-none-any.whl
 pip install pip_lib/tensorflow_text-2.13.0-cp312-cp312-linux_x86_64.whl
 git clone --branch=main https://github.com/google-research/t5x
