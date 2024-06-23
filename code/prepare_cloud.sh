@@ -1,5 +1,5 @@
 
-git clone git@github.com:Marvinpv/TFM.git
+git clone -b feature/google-cloud-execution --single-branch git@github.com:Marvinpv/TFM.git
 
 gsutil cp -r gs://tfm-jazz-transcription-marvin/pip_lib/ /code/pip_lib/
 pip install pip_lib/mt3-0.0.1-py3-none-any.whl
