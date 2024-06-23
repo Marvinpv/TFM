@@ -6,3 +6,7 @@ __pycache__
 .vscode/*
 .venv/
 /dataset/
+/checkpoints/
+/train/
+/training_eval/
+/pip_lib/

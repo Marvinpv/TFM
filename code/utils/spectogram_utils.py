@@ -7,7 +7,7 @@ from librosa.display import specshow
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
+import os
 import IPython.display as display
 
 logger = logging.getLogger(__name__)
@@ -82,6 +82,65 @@ def save_spectogram_list_to_tf_record(filepath, spect_list,melids,shapes = None)
                 logger.debug(f'Saved melid {melid} into {filepath}')
         except Exception as e:
             logger.error(e)
+
+def serialize_samples_and_midi_with__melid(sample,midi,melid,sr):
+
+    if(isinstance(sample,list)):
+        print('Hola')
+
+    features = {
+        'id': tf.train.Feature(bytes_list=tf.train.BytesList(value=[bytes(melid)])),
+        'audio': tf.train.Feature(float_list=tf.train.FloatList(value=sample.numpy())),
+        'sequence': tf.train.Feature(bytes_list=tf.train.BytesList(value=[midi])),
+        'sample_rate': tf.train.Feature(int64_list=tf.train.Int64List(value=[sr]))
+    }
+
+    spect_example = tf.train.Example(features=tf.train.Features(feature=features))
+    return spect_example.SerializeToString()
+
+def save_samples_and_midi_to_tf_record(filepath,samples_list,midi_list,melid_list,sr):
+
+    with tf.io.TFRecordWriter(filepath) as writer:
+        try:
+            for sample,midi,melid,curr_sr in zip(samples_list,midi_list,melid_list,sr):
+                serialized_string = serialize_samples_and_midi_with__melid(sample,midi,melid,curr_sr)
+                writer.write(serialized_string)
+                logger.debug(f'Saved melid {melid} into {filepath}')
+        except Exception as e:
+            logger.error(e)
+
+def get_features_from_mt3_tfrecord(filepath):
+    raw_input_dataset = tf.data.TFRecordDataset(filepath)
+    input_feature_description = {
+        'id': tf.io.FixedLenFeature([],tf.string),
+        'audio': tf.io.VarLenFeature(tf.float32),
+        'sequence': tf.io.FixedLenFeature([],tf.string),
+        'sample_rate': tf.io.FixedLenFeature([],tf.int64)
+    }
+
+    def _parse_input_function(example_proto):
+        return tf.io.parse_single_example(example_proto,input_feature_description)
+
+    parsed_input_dataset = raw_input_dataset.map(_parse_input_function)
+
+    return parsed_input_dataset
+
+def get_features_from_mt3_dir(dirpath = extraction_path):
+    files = [os.path.join(dirpath,arch) for arch in os.listdir(dirpath)]
+    raw_input_dataset = tf.data.TFRecordDataset(files)
+    input_feature_description = {
+        'id': tf.io.FixedLenFeature([],tf.string),
+        'audio': tf.io.VarLenFeature(tf.float32),
+        'sequence': tf.io.FixedLenFeature([],tf.string),
+        'sample_rate': tf.io.FixedLenFeature([],tf.int64)
+    }
+
+    def _parse_input_function(example_proto):
+        return tf.io.parse_single_example(example_proto,input_feature_description)
+
+    parsed_input_dataset = raw_input_dataset.map(_parse_input_function)
+
+    return parsed_input_dataset
 
 
 def get_features_from_tfrecord(filepath):

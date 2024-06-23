@@ -41,14 +41,14 @@ def extract_solo_info_from_melid(melid,cursor=None):
         'instrument': row[2]  
     }
 
-def get_instrument_solo_list(para_options):
-    tfrecord_filename = extraction_path + para_options + ".tfrecord"
-    display_list = []
-    features = get_features_from_tfrecord(tfrecord_filename)
-    db_cursor = create_db_cursor()
-    for feature in features:
-        melid = feature['melid'].numpy()
-        solo_info = extract_solo_info_from_melid(melid)
-        display_list.append((f'{str(melid).zfill(3)} - {str(solo_info['performer']).center(30)} - {solo_info['title']}',melid))
-    
-    return display_list
+#def get_instrument_solo_list(para_options):
+#    tfrecord_filename = extraction_path + para_options + ".tfrecord"
+#    display_list = []
+#    features = get_features_from_tfrecord(tfrecord_filename)
+#    db_cursor = create_db_cursor()
+#    for feature in features:
+#        melid = feature['melid'].numpy()
+#        solo_info = extract_solo_info_from_melid(melid)
+#        display_list.append((f'{str(melid).zfill(3)} - {str(solo_info['performer']).center(30)} - {solo_info['title']}',melid))
+#    
+#    return display_list

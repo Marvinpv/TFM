@@ -54,13 +54,15 @@ def convert_audio_to_samples(filepath,sr=SAMPLING_RATE):
     try:
         bin_audio = tf.io.read_file(filepath)
         audio_samples,sampling_rate = tf.audio.decode_wav(contents=bin_audio,desired_channels=1)
+        if isinstance(audio_samples,list):
+            print('Hola')
         #print(audio_samples.shape)
     except Exception as e:
         logger.error(e)
     if len(audio_samples):
         return tf.squeeze(audio_samples,axis=-1),int(sampling_rate)
     else:
-        return audio_samples,sr
+        return None,sr
 
 def create_spectogram_from_tf_samples(samples, sampling_rate = SAMPLING_RATE):
 

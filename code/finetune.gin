@@ -1,0 +1,26 @@
+from __gin__ import dynamic_registration
+
+from mt3 import network
+from t5x import utils
+import tasks
+
+include 'train.gin'
+
+TASK_PREFIX = 'jazz_solos_notes'
+TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
+TRAIN_STEPS = 15000
+BATCH_SIZE = 32
+LABEL_SMOOTHING = 0.0
+NUM_VELOCITY_BINS = 1
+PROGRAM_GRANULARITY = 'full'
+ONSETS_ONLY = False
+USE_TIES = True
+MAX_EXAMPLES_PER_MIX = None
+
+network.T5Config.dropout_rate = 0.1
+
+CHECKPOINT_PATH = %gin.REQUIRED
+utils.CheckpointConfig.restore = @utils.RestoreCheckpointConfig()
+utils.RestoreCheckpointConfig:
+  path = %CHECKPOINT_PATH
+  mode = 'specific'
