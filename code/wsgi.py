@@ -1,5 +1,5 @@
 from flask import Flask,render_template,jsonify,request,Blueprint
-from settings import extraction_path
+from settings import spect_records_path
 from utils.spectogram_utils import create_spectogram_for_melid,get_features_from_tfrecord
 from utils.extraction_utils import create_db_cursor,extract_solo_info_from_melid
 from librosa.display import specshow
@@ -30,7 +30,7 @@ def dataset_view():
 @app.context_processor
 def obtener_opciones():
     def get_instrument_solo_list(para_options):
-        tfrecord_filename = extraction_path + para_options + ".tfrecord"
+        tfrecord_filename = spect_records_path + para_options + ".tfrecord"
         display_list = []
         features = get_features_from_tfrecord(tfrecord_filename)
         db_cursor = create_db_cursor()

@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import logging
-from settings import extraction_path
+from settings import extraction_path,spect_records_path
 from utils.extraction_utils import create_db_cursor
 from librosa.display import specshow
 import matplotlib
@@ -159,7 +159,7 @@ def get_features_from_tfrecord(filepath):
     return parsed_spectogram_dataset
 
 def create_spectogram_for_melid(melid,para_options):
-        tfrecord_filename = extraction_path + para_options + ".tfrecord"
+        tfrecord_filename = spect_records_path + para_options + ".tfrecord"
         display_list = []
         features = get_features_from_tfrecord(tfrecord_filename)
         db_cursor = create_db_cursor()

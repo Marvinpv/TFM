@@ -10,3 +10,4 @@ __pycache__
 /train/
 /training_eval/
 /pip_lib/
+/logs/

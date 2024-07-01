@@ -11,11 +11,11 @@ JAZZ_SOLOS_CONFIG = DatasetConfig(
         'train_subset':
             os.path.join(extraction_path,'jazz_solos.tfrecord-000[01]?-of-00026'),
         'validation':
-            os.path.join(extraction_path,'jazz_solos.tfrecord-0002[123]-of-00026'),
+            os.path.join(extraction_path,'jazz_solos.tfrecord-0002[012]-of-00026'),
         'validation_subset':
             os.path.join(extraction_path,'jazz_solos.tfrecord-00021-of-00026'),
         'test':
-            os.path.join(extraction_path,'jazz_solos.tfrecord-0002[456]-of-00026')
+            os.path.join('/home/marvin/US/TFM/code/dataset/test/','jazz_solos.tfrecord-00000-of-00000')
     },
     features={
         'audio': tf.io.VarLenFeature(dtype=tf.float32),

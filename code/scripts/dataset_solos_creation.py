@@ -6,6 +6,7 @@ import pandas as pd
 from utils import extraction_utils,spectogram_utils,audio_utils
 import os
 import mido
+import note_seq
 
 def create_dataframe_from_csv(csv_path=settings.csv_youtube_path):
     try:
@@ -50,8 +51,8 @@ def solo_extraction_pipeline(df=None):
             spectogram_utils.save_spectogram_list_to_tf_record(os.path.join(settings.spect_records_path,k)+'.tfrecord',spects,melids,shapes)
 
 
-def solo_extraction_pipeline_mt3(df=None):
-    if not df:
+def solo_extraction_pipeline_mt3(df=None,extract_path=settings.extraction_path):
+    if not isinstance(df,pd.DataFrame):
         df = create_dataframe_from_csv()
 
     db_cursor = extraction_utils.create_db_cursor()
@@ -76,7 +77,7 @@ def solo_extraction_pipeline_mt3(df=None):
             idx+=1
         if downloaded_filepath:
             audio_samples,sr = audio_utils.convert_audio_to_samples(downloaded_filepath)
-            audio_utils.delete_wav_file(downloaded_filepath)
+            #audio_utils.delete_wav_file(downloaded_filepath)
             midi_file_name = df_id['db'].iloc[0][:df_id['db'].iloc[0].upper().index('_SOLO_Q')] + '_FINAL.mid'
             midi_path = os.path.join(settings.midi_filepath,midi_file_name)
             if os.path.exists(midi_path) and audio_samples != None:
@@ -84,7 +85,7 @@ def solo_extraction_pipeline_mt3(df=None):
                     try:
                         midi_bytestring = midi_file.read()
                         audios.append(audio_samples)
-                        midi.append(midi_bytestring)
+                        midi.append(note_seq.midi_to_note_sequence(midi_bytestring).SerializeToString())
                         instruments.append(mel_info['instrument'])
                         final_melids.append(melid)
                         srs.append(sr)
@@ -103,7 +104,7 @@ def solo_extraction_pipeline_mt3(df=None):
         num_tfrecords+=1
     for i in range(num_tfrecords):
         filepath = f'jazz_solos.tfrecord-{str(i).zfill(5)}-of-{str(num_tfrecords-1).zfill(5)}'
-        filepath = os.path.join(settings.extraction_path,filepath)
+        filepath = os.path.join(extract_path,filepath)
         spectogram_utils.save_samples_and_midi_to_tf_record(filepath,audios[i*10:i*10+10],midi[i*10:i*10+10],final_melids[i*10:i*10+10],srs[i*10:i*10+10])
 
 if __name__ == '__main__':
