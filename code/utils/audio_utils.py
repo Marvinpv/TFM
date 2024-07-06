@@ -10,6 +10,8 @@ import tensorflow as tf
 import numpy as np
 import logging
 import settings
+from midi2audio import FluidSynth
+from pydub import AudioSegment
 
 SAMPLING_RATE = settings.SAMPLING_RATE
 TMP_DIR_PATH = settings.TMP_DIR_PATH
@@ -100,8 +102,15 @@ def delete_wav_file(filepath):
         logger.error(e)
     
 
+# Convertir MIDI a WAV
+def midi_to_wav(midi_path, wav_path):
+    fs = FluidSynth()
+    fs.midi_to_audio(midi_path, wav_path)
 
-
+# Convertir WAV a MP3
+def wav_to_mp3(wav_path, mp3_path):
+    audio = AudioSegment.from_wav(wav_path)
+    audio.export(mp3_path, format="mp3")
 
 
 

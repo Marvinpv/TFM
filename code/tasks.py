@@ -34,6 +34,8 @@ add_transcription_task_to_registry(
     tokenize_fn=functools.partial(
         preprocessors.tokenize_transcription_example,
         audio_is_samples=True,
-        id_feature_key='id'),
+        id_feature_key='id',
+        ),
     onsets_only=False,
-    include_ties=False)
+    include_ties=True,
+    skip_too_long=True)

@@ -17,7 +17,7 @@ import tasks
 # Macros:
 # ==============================================================================
 BATCH_SIZE = 32
-CHECKPOINT_PATH = '/home/marvin/US/TFM/code/checkpoints/checkpoint_1'
+CHECKPOINT_PATH = '/home/marvin/US/TFM/code/checkpoints/checkpoint_2'
 EVAL_STEPS = 20
 EVAL_TASK_SUFFIX = 'eval'
 EVALUATOR_NUM_EXAMPLES = None
@@ -35,7 +35,7 @@ OUTPUT_VOCABULARY = @vocabularies.vocabulary_from_codec()
 PROGRAM_GRANULARITY = 'full'
 SPECTROGRAM_CONFIG = @spectrograms.SpectrogramConfig()
 TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
-TASK_PREFIX = 'jazz_solos_notes'
+TASK_PREFIX = 'jazz_solos_notes_ties'
 TRAIN_STEPS = 15000
 TRAIN_TASK_SUFFIX = 'train'
 USE_CACHED_TASKS = False
@@ -178,14 +178,14 @@ utils.SaveCheckpointConfig.save_dataset = False
 # ==============================================================================
 network.T5Config.dropout_rate = 0.1
 network.T5Config.dtype = 'float32'
-network.T5Config.emb_dim = 768
+network.T5Config.emb_dim = 512
 network.T5Config.head_dim = 64
 network.T5Config.logits_via_embedding = False
 network.T5Config.mlp_activations = ('gelu', 'linear')
-network.T5Config.mlp_dim = 2048
-network.T5Config.num_decoder_layers = 12
-network.T5Config.num_encoder_layers = 12
-network.T5Config.num_heads = 12
+network.T5Config.mlp_dim = 1024
+network.T5Config.num_decoder_layers = 8
+network.T5Config.num_encoder_layers = 8
+network.T5Config.num_heads = 6
 network.T5Config.vocab_size = @vocabularies.num_embeddings()
 
 # Parameters for train_script.train:

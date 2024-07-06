@@ -11,8 +11,8 @@ class ExtractionUtilsTest(TestCase):
         test_melid = 3
         query = extraction_utils.extract_solo_info_from_melid(test_melid)
 
-        self.assertEqual(query['performer'],['Art Pepper'])
-        self.assertEqual(query['title'],['Desafinado'])
-        self.assertEqual(query['instrument'],['as'])
+        self.assertEqual(query['performer'],'Art Pepper')
+        self.assertEqual(query['title'],'Desafinado')
+        self.assertEqual(query['instrument'],'as')
 
     

@@ -1,0 +1,146 @@
+from __gin__ import dynamic_registration
+import __main__ as infer_script
+from mt3 import inference
+from mt3 import models
+from mt3 import network
+from mt3 import spectrograms
+from mt3 import vocabularies
+import preprocessors
+import seqio
+from t5x import adafactor
+from t5x import partitioning
+from t5x import utils
+import tasks
+
+# Macros:
+# ==============================================================================
+CHECKPOINT_PATH = '/home/marvin/US/TFM/code/checkpoints/checkpoint_525000'
+INFER_OUTPUT_DIR = '/home/marvin/US/TFM/code/tmp_infer'
+LABEL_SMOOTHING = 0.0
+LOSS_NORMALIZING_FACTOR = None
+MODEL = @models.ContinuousInputsEncoderDecoderModel()
+MODEL_DIR = '/home/marvin/US/TFM/code'
+NUM_VELOCITY_BINS = 1
+ONSETS_ONLY = False
+OPTIMIZER = @adafactor.Adafactor()
+OUTPUT_VOCABULARY = @vocabularies.vocabulary_from_codec()
+PROGRAM_GRANULARITY = 'full'
+SPECTROGRAM_CONFIG = @spectrograms.SpectrogramConfig()
+TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
+TASK_PREFIX = 'jazz_solos_notes_ties'
+TASK_SUFFIX = 'test'
+USE_TIES = False
+VOCAB_CONFIG = @vocabularies.VocabularyConfig()
+Z_LOSS = 0.0001
+
+# Parameters for adafactor.Adafactor:
+# ==============================================================================
+adafactor.Adafactor.decay_rate = 0.8
+adafactor.Adafactor.logical_factor_rules = \
+    @adafactor.standard_logical_factor_rules()
+adafactor.Adafactor.step_offset = 0
+
+# Parameters for vocabularies.build_codec:
+# ==============================================================================
+vocabularies.build_codec.vocab_config = %VOCAB_CONFIG
+
+# Parameters for tasks.construct_task_name:
+# ==============================================================================
+tasks.construct_task_name.task_prefix = %TASK_PREFIX
+tasks.construct_task_name.task_suffix = %TASK_SUFFIX
+tasks.construct_task_name.vocab_config = %VOCAB_CONFIG
+
+# Parameters for models.ContinuousInputsEncoderDecoderModel:
+# ==============================================================================
+models.ContinuousInputsEncoderDecoderModel.input_depth = \
+    @spectrograms.input_depth()
+models.ContinuousInputsEncoderDecoderModel.input_vocabulary = \
+    @seqio.vocabularies.PassThroughVocabulary()
+models.ContinuousInputsEncoderDecoderModel.label_smoothing = %LABEL_SMOOTHING
+models.ContinuousInputsEncoderDecoderModel.loss_normalizing_factor = \
+    %LOSS_NORMALIZING_FACTOR
+models.ContinuousInputsEncoderDecoderModel.module = @network.Transformer()
+models.ContinuousInputsEncoderDecoderModel.optimizer_def = %OPTIMIZER
+models.ContinuousInputsEncoderDecoderModel.output_vocabulary = %OUTPUT_VOCABULARY
+models.ContinuousInputsEncoderDecoderModel.z_loss = %Z_LOSS
+
+# Parameters for utils.DatasetConfig:
+# ==============================================================================
+utils.DatasetConfig.batch_size = 1
+utils.DatasetConfig.mixture_or_task_name = @tasks.construct_task_name()
+utils.DatasetConfig.pack = False
+utils.DatasetConfig.seed = 0
+utils.DatasetConfig.shuffle = False
+utils.DatasetConfig.split = 'eval'
+utils.DatasetConfig.task_feature_lengths = %TASK_FEATURE_LENGTHS
+utils.DatasetConfig.use_cached = False
+
+# Parameters for infer_script.infer:
+# ==============================================================================
+infer_script.infer.checkpoint_period = 100000
+infer_script.infer.dataset_cfg = @utils.DatasetConfig()
+infer_script.infer.mode = 'predict'
+infer_script.infer.model = %MODEL
+infer_script.infer.num_shards = 1
+infer_script.infer.output_dir = %INFER_OUTPUT_DIR
+infer_script.infer.partitioner = @partitioning.PjitPartitioner()
+infer_script.infer.restore_checkpoint_cfg = @utils.RestoreCheckpointConfig()
+infer_script.infer.shard_id = 0
+infer_script.infer.write_fn = @inference.write_inferences_to_file
+
+# Parameters for spectrograms.input_depth:
+# ==============================================================================
+spectrograms.input_depth.spectrogram_config = %SPECTROGRAM_CONFIG
+
+# Parameters for preprocessors.map_midi_programs:
+# ==============================================================================
+preprocessors.map_midi_programs.granularity_type = %PROGRAM_GRANULARITY
+
+# Parameters for vocabularies.num_embeddings:
+# ==============================================================================
+vocabularies.num_embeddings.vocabulary = %OUTPUT_VOCABULARY
+
+# Parameters for seqio.vocabularies.PassThroughVocabulary:
+# ==============================================================================
+seqio.vocabularies.PassThroughVocabulary.size = 0
+
+# Parameters for partitioning.PjitPartitioner:
+# ==============================================================================
+partitioning.PjitPartitioner.num_partitions = 1
+
+# Parameters for utils.RestoreCheckpointConfig:
+# ==============================================================================
+utils.RestoreCheckpointConfig.mode = 'specific'
+utils.RestoreCheckpointConfig.path = %CHECKPOINT_PATH
+
+# Parameters for network.T5Config:
+# ==============================================================================
+network.T5Config.dropout_rate = 0.1
+network.T5Config.dtype = 'float32'
+network.T5Config.emb_dim = 512
+network.T5Config.head_dim = 64
+network.T5Config.logits_via_embedding = False
+network.T5Config.mlp_activations = ('gelu', 'linear')
+network.T5Config.mlp_dim = 1024
+network.T5Config.num_decoder_layers = 8
+network.T5Config.num_encoder_layers = 8
+network.T5Config.num_heads = 6
+network.T5Config.vocab_size = @vocabularies.num_embeddings()
+
+# Parameters for network.Transformer:
+# ==============================================================================
+network.Transformer.config = @network.T5Config()
+
+# Parameters for vocabularies.vocabulary_from_codec:
+# ==============================================================================
+vocabularies.vocabulary_from_codec.codec = @vocabularies.build_codec()
+
+# Parameters for vocabularies.VocabularyConfig:
+# ==============================================================================
+vocabularies.VocabularyConfig.num_velocity_bins = %NUM_VELOCITY_BINS
+
+# Parameters for inference.write_inferences_to_file:
+# ==============================================================================
+inference.write_inferences_to_file.onsets_only = %ONSETS_ONLY
+inference.write_inferences_to_file.use_ties = %USE_TIES
+inference.write_inferences_to_file.vocab_config = %VOCAB_CONFIG

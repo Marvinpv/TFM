@@ -1,5 +1,5 @@
 from flask import Flask,render_template,jsonify,request,Blueprint
-from settings import extraction_path
+from settings import spect_records_path
 from utils.spectogram_utils import create_spectogram_for_melid,get_features_from_tfrecord
 from utils.extraction_utils import create_db_cursor,extract_solo_info_from_melid
 from librosa.display import specshow
@@ -30,7 +30,7 @@ def dataset_view():
 @app.context_processor
 def obtener_opciones():
     def get_instrument_solo_list(para_options):
-        tfrecord_filename = extraction_path + para_options + ".tfrecord"
+        tfrecord_filename = spect_records_path + para_options + ".tfrecord"
         display_list = []
         features = get_features_from_tfrecord(tfrecord_filename)
         db_cursor = create_db_cursor()
@@ -43,7 +43,17 @@ def obtener_opciones():
 
     return dict(get_instrument_solo_list=get_instrument_solo_list)
 
-
+@app.route("/preds")
+def preds_view():
+    audios = [
+        {'original': 'John Coltrane - Blue Train.wav','pred':'BlueTrain-Prediction.mp3', 'text': 'John Coltrane - Blue Train'},
+        {'original': 'Miles Davis Quintet with Sonny Rollins - Airegin (1954).wav','pred':'Airegin-Prediction.mp3', 'text': 'Miles Davis - Airegin'},
+        {'original': "Billie's Bounce ⧸ Charlie Parker　The Savoy Recordings.wav",'pred':"Billie'sBounce-Prediction.mp3", 'text': "Charlie Parker - Billie's Bounce"},
+        {'original': 'Coleman Hawkins   Perdido.wav','pred':'Perdido-Prediction.mp3', 'text': 'Coleman Hawkins - Perdido'},
+        {'original': 'Cannonball Adderley - Hi fly.wav','pred':'HighFly-Prediction.mp3', 'text': 'Cannonball Adderley - High Fly'},
+        {'original': 'Chet Baker - There Will Never Be Another You.wav','pred':'ThereWillNeverBeAnotherYou-Prediction.mp3', 'text': 'Chet Baker - There Will Never Be Another You'}
+    ]
+    return render_template('predictions.html',audios=audios)
 
 
 @app.route('/mostrar_info', methods=['POST'])

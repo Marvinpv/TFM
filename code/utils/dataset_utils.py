@@ -4,9 +4,9 @@ import os
 import tensorflow as tf
 import logging
 import note_seq
-
-
-
+from mt3 import note_sequences
+from scripts.dataset_solos_creation import solo_extraction_pipeline_mt3
+import pandas as pd
 
 def train_test_split(dataset_path= extraction_path):
     
@@ -72,7 +72,7 @@ def train_test_split(dataset_path= extraction_path):
 
 def restructure_dataset(dataset_path=extraction_path):
     
-    parsed_dataset = get_features_from_mt3_dir(dataset_path)
+    parsed_dataset = get_features_from_mt3_tfrecord(os.path.join(dataset_path,'jazz_solos.tfrecord-00021-of-00026'))
     dataset_size = sum([1 for _ in parsed_dataset])
     audios = []
     seqs = []
@@ -92,18 +92,29 @@ def restructure_dataset(dataset_path=extraction_path):
             seqs = []
             ids = []
             srs = []
-        audios.append(tf.sparse.to_dense(record['audio']))
-        seqs.append(note_seq.midi_to_note_sequence(record['sequence'].numpy()).SerializeToString())
-        ids.append(record['id'].numpy())
-        srs.append(record['sample_rate'].numpy())
-    
+        try:
+            ns = note_seq.midi_to_note_sequence(record['sequence'].numpy())
+            note_sequences.validate_note_sequence(ns)
+            audios.append(tf.sparse.to_dense(record['audio']))
+            seqs.append(ns.SerializeToString())
+            ids.append(record['id'].numpy())
+            srs.append(record['sample_rate'].numpy())
+        except Exception as e:
+            logging.info(e)
     num_files = len(audios)//10
     if len(audios) % 10 != 0:
         num_files += 1
-    
+
+
+TEST_CSV = '/home/marvin/US/TFM/code/scripts/csv_test.csv'
+TEST_DATASET_PATH= '/home/marvin/US/TFM/code/dataset/test'
+def create_test_dataset():
+    df_test = df = pd.read_csv(TEST_CSV)
+    solo_extraction_pipeline_mt3(df_test,TEST_DATASET_PATH)
         
 
 
 if __name__ == '__main__':
-    restructure_dataset('/run/media/marvin/50145B98145B7FC0/Users/Marvin/Documents/dataset3')
+    '/run/media/marvin/50145B98145B7FC0/Users/Marvin/Documents/dataset3'
+    restructure_dataset()
     
