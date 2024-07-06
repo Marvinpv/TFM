@@ -43,7 +43,17 @@ def obtener_opciones():
 
     return dict(get_instrument_solo_list=get_instrument_solo_list)
 
-
+@app.route("/preds")
+def preds_view():
+    audios = [
+        {'original': 'John Coltrane - Blue Train.wav','pred':'BlueTrain-Prediction.mp3', 'text': 'John Coltrane - Blue Train'},
+        {'original': 'Miles Davis Quintet with Sonny Rollins - Airegin (1954).wav','pred':'Airegin-Prediction.mp3', 'text': 'Miles Davis - Airegin'},
+        {'original': "Billie's Bounce ⧸ Charlie Parker　The Savoy Recordings.wav",'pred':"Billie'sBounce-Prediction.mp3", 'text': "Charlie Parker - Billie's Bounce"},
+        {'original': 'Coleman Hawkins   Perdido.wav','pred':'Perdido-Prediction.mp3', 'text': 'Coleman Hawkins - Perdido'},
+        {'original': 'Cannonball Adderley - Hi fly.wav','pred':'HighFly-Prediction.mp3', 'text': 'Cannonball Adderley - High Fly'},
+        {'original': 'Chet Baker - There Will Never Be Another You.wav','pred':'ThereWillNeverBeAnotherYou-Prediction.mp3', 'text': 'Chet Baker - There Will Never Be Another You'}
+    ]
+    return render_template('predictions.html',audios=audios)
 
 
 @app.route('/mostrar_info', methods=['POST'])

@@ -5,12 +5,25 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main_menu.css') }}">
     </head>
     <body>
-        <header>
-            <nav>
-                <ul>
-        		<li><a href="dataset">Dataset</a></li>
-        	 </ul>
-            </nav>
-        </header>
+        <div class="header">
+                <nav>
+                    <ul>
+        	    	<li><a href="dataset">Dataset</a></li>
+                    <li><a href="preds">Predictions</a></li>
+        	        </ul>
+                </nav>
+        </div>
+        <div class="content">
+            <h1>
+                Jazz Solo Transcription using Transformers
+            </h1>
+            <h2>
+                Marvin Peinado Vidaña
+            </h2>
+            <ul>
+                <li> Pulse Dataset para explorar el conjunto de datos y visualizar sus <b>espectrogramas</b>.</li>
+                <li> Pulse Predictions para escuchar ejemplos de predicciones realizadas por el modelo.</li>
+            </ul>
+        </div>
     </body>
 </html>

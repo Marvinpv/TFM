@@ -95,9 +95,6 @@ def solo_extraction_pipeline_mt3(df=None,extract_path=settings.extraction_path):
                 melids.remove(melid)
         else:
             melids.remove(melid)
-            
-    if len(midi) != len(final_melids):
-        print('cabesa')   
 
     num_tfrecords = len(midi)//10
     if len(midi)%10 != 0:

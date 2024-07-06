@@ -20,17 +20,17 @@
 from __gin__ import dynamic_registration
 
 import __main__ as eval_script
-from mt3 import preprocessors
-from mt3 import tasks
+import preprocessors
+import tasks
 from mt3 import vocabularies
 from t5x import partitioning
 from t5x import utils
 
 # Must be overridden
-TASK_PREFIX = 'jazz_solos_notes'
-TASK_FEATURE_LENGTHS = {'inputs':256,'targets':}
-CHECKPOINT_PATH = %gin.REQUIRED
-EVAL_OUTPUT_DIR = %gin.REQUIRED
+TASK_PREFIX = 'jazz_solos_notes_ties'
+TASK_FEATURE_LENGTHS = {'inputs':256,'targets':1024}
+CHECKPOINT_PATH = '/home/marvin/US/TFM/code/checkpoints/checkpoint_525000/'
+EVAL_OUTPUT_DIR = '/home/marvin/US/TFM/code/eval'
 
 # Number of velocity bins: set to 1 (no velocity) or 127
 NUM_VELOCITY_BINS = 1
@@ -58,10 +58,10 @@ utils.DatasetConfig:
   mixture_or_task_name = @tasks.construct_task_name()
   task_feature_lengths = %TASK_FEATURE_LENGTHS
   split = 'eval'
-  batch_size = 32
+  batch_size = 1
   shuffle = False
   seed = 42
-  use_cached = True
+  use_cached = False
   pack = False
   use_custom_packing_ops = False
 

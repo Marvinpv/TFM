@@ -11,3 +11,9 @@ __pycache__
 /training_eval/
 /pip_lib/
 /logs/
+/static/audios/
+/infer/
+/infer2/
+/tmp_infer/
+/eval/
+requirements.txt

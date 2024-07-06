@@ -1,0 +1,96 @@
+details{
+    padding-left: 50px;
+    border: 1px solid #ccc; /* Añade un borde de 1px sólido con color gris claro */
+    border-radius: 5px; /* Redondea las esquinas de la caja */
+    margin-bottom: 10px; /* Agrega un poco de espacio entre cada campo details */
+    padding: 10px; /* Añade espacio interno para que el contenido no esté pegado al borde */
+}
+
+.header {
+  background: rgba(68, 103, 191, 0.7);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: bold;
+  font-size: large;
+  color: white;
+  width: 100%;
+  z-index: 100;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px; /* Ajusta este valor según tu preferencia */
+  box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+}
+
+.content {
+    padding: 10px 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+/* Estilos para los elementos <li> dentro de todas las listas <ul> */
+ul li {
+  margin-bottom: 16px; /* Añadimos más espacio entre elementos */
+  padding: 16px; /* Añadimos padding para el recuadro */
+  border: 2px solid #ccc; /* Añadimos un recuadro alrededor de cada elemento */
+  border-radius: 8px; /* Añadimos esquinas redondeadas al recuadro */
+  text-align: left;
+  position: relative;
+}
+
+.content {
+    margin: 20px;
+}
+.audio-container {
+    display: flex;
+    flex-direction: column;
+}
+.audio-header, .audio-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alinea verticalmente los elementos */
+    margin-bottom: 10px;
+}
+.audio-header div {
+    flex: 1; /* Hace que cada div ocupe el mismo ancho */
+    text-align: center;
+}
+.audio-item-text {
+    flex: 1;
+    text-align: left;
+    margin-right: 20px; /* Añade un margen derecho para separar el texto de los audios */
+}
+.audio {
+    flex: 1;
+    text-align: center;
+    width: 100%;
+}
+
+
+.audio-orig {
+    flex:1;
+    text-align: right;
+}
+
+.audio-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.audio-table th, .audio-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.audio-table th {
+    background-color: #f2f2f2;
+}
+.audio-table td {
+    vertical-align: top;
+}
+.audio-table .audio-text {
+    text-align: left;
+}

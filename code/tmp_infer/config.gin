@@ -117,14 +117,14 @@ utils.RestoreCheckpointConfig.path = %CHECKPOINT_PATH
 # ==============================================================================
 network.T5Config.dropout_rate = 0.1
 network.T5Config.dtype = 'float32'
-network.T5Config.emb_dim = 768
+network.T5Config.emb_dim = 512
 network.T5Config.head_dim = 64
 network.T5Config.logits_via_embedding = False
 network.T5Config.mlp_activations = ('gelu', 'linear')
-network.T5Config.mlp_dim = 2048
-network.T5Config.num_decoder_layers = 12
-network.T5Config.num_encoder_layers = 12
-network.T5Config.num_heads = 12
+network.T5Config.mlp_dim = 1024
+network.T5Config.num_decoder_layers = 8
+network.T5Config.num_encoder_layers = 8
+network.T5Config.num_heads = 6
 network.T5Config.vocab_size = @vocabularies.num_embeddings()
 
 # Parameters for network.Transformer:

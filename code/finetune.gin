@@ -6,7 +6,7 @@ import tasks
 
 include 'train.gin'
 
-TASK_PREFIX = 'jazz_solos_notes'
+TASK_PREFIX = 'jazz_solos_notes_ties'
 TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
 TRAIN_STEPS = 15000
 BATCH_SIZE = 32

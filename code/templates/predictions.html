@@ -1,0 +1,46 @@
+<html lang="es">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <title>TFM</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/predictions.css') }}">
+    </head>
+    <body>
+      
+        <div class="header">
+            <h1>Predictions</h1>
+        </div>
+        <div class="content">
+            <table class="audio-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Original</th>
+                        <th>Predicción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for audio in audios %}
+                    <tr>
+                        <td class="audio-text">{{ audio.text }}</td>
+                        <td>
+                            <audio controls>
+                                <source src="{{ url_for('static', filename='audios/' ~ audio.original) }}" type="audio/mpeg">
+                                Tu navegador no soporta el elemento de audio.
+                            </audio>
+                        </td>
+                        <td>
+                            <audio controls>
+                                <source src="{{ url_for('static', filename='audios/' ~ audio.pred) }}" type="audio/mpeg">
+                                Tu navegador no soporta el elemento de audio.
+                            </audio>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>

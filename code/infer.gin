@@ -36,7 +36,7 @@ from t5x import utils
 TASK_PREFIX = 'jazz_solos_notes_ties'
 TASK_FEATURE_LENGTHS = {'inputs': 256, 'targets': 1024}
 CHECKPOINT_PATH = '/home/marvin/US/TFM/code/checkpoints/checkpoint_525000'
-INFER_OUTPUT_DIR = '/home/marvin/US/TFM/code/tmp_infer'
+INFER_OUTPUT_DIR = '/home/marvin/US/TFM/code/infer2'
 
 # Number of velocity bins: set to 1 (no velocity) or 127
 NUM_VELOCITY_BINS = 1
